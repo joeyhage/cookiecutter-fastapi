@@ -1,0 +1,33 @@
+name: ci
+
+on: push
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: "pip"
+
+      - name: Install Python Dependencies
+        run: |
+          pip install poetry cookiecutter
+
+      - name: Check
+        run: |
+          cookiecutter --no-input . \
+            project_name=fastapi-app \
+            project_short_description=Demo \
+            author_name=JohnDoe \
+            email="example@example.com" \
+            python_version=3.12
+
+          ls -R fastapi-app
+          cd fastapi-app
+          poetry install
