@@ -1,0 +1,42 @@
+exclude: '(CODEOWNERS$|^.vscode)'
+default_language_version:
+    python: python{{cookiecutter.python_version}}
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-docstring-first
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.7
+    hooks:
+      - id: ruff
+        args: [--config=pyproject.toml, --fix]
+      - id: ruff-format
+        args: [--config=pyproject.toml]
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.4.0
+    hooks:
+      - id: pycln
+        args: [--config=pyproject.toml]
+
+  - repo: https://github.com/aws-cloudformation/cfn-lint
+    rev: v1.15.1
+    hooks:
+      - id: cfn-lint
+        files: 'infra_aws/.*\.(yaml|yml)$'
+
+  - repo: https://github.com/aws-cloudformation/rain
+    rev: v1.15.0
+    hooks:
+      - id: cfn-format
+        files: 'infra_aws/.*\.(yaml|yml)$'
